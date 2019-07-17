@@ -27,6 +27,13 @@
           body .carousel-control-next-icon{
           background-color: blue;
           }
+
+            .carousel-control-prev,
+             .carousel-control-next{
+            top: auto;
+            bottom: auto;
+          }
+
            body .no-padding{
            padding-left: 0,
            padding-right: 0;
@@ -39,13 +46,14 @@
 
  <!--  carousel  -->
 <div class="container">
-<h1>Electronic</h1>
- <div id="demo" class="carousel slide my-3" data-ride="carousel">
+    {% for nSlides,range,products in allProds%}
+<h1>{{products.0.category}}</h1>
+ <div id="demo{{forloop.counter}}" class="carousel slide my-3" data-ride="carousel">
   <ol class="carousel-indicators">
-      <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+      <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
    <!--   this for loop is for the number of slide-->
       {% for i in range %}
-      <li data-target="#carouselExampleCaptions" data-slide-to={{i}}></li>
+      <li data-target="#demo{{forloop.parent.counter}}" data-slide-to={{i}}></li>
      {% endfor %}
   </ol>
 
@@ -55,17 +63,17 @@
          <div class = "col-xs-3 col-sm-3 col-md-3">
              <!--used Card here-->
             <div class="card" style="width: 18rem;">
-                <img src='/media/{{product.0.image}}' class="card-img-top" alt="...">
+                <img src='/media/{{products.0.image}}' class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{product.0.product_name}}</h5>
-                    <p class="card-text">{{product.0.desc}}</p>
+                    <h5 class="card-title">{{products.0.product_name}}</h5>
+                    <p class="card-text">{{products.0.desc}}</p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>
          </div>
 
             <!--Slices the product , start from 1 to no. of product-->
-            {% for i in product|slice:"1:"%}
+            {% for i in products|slice:"1:"%}
            <div class = "col-xs-3 col-sm-3 col-md-3">
              <!--used Card here-->
             <div class="card" style="width: 18rem;">
@@ -89,11 +97,12 @@
  </div>
 
    <!-- Left right controls for the slide ---- copied from bootstrap documnets-->
-   <a class="carousel-control-prev" href="#demo" data-slide="prev">
+   <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
         <span class="carousel-control-prev-icon"></span>
     </a>
-    <a class="carousel-control-next" href="#demo" data-slide="next">
+    <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
         <span class="carousel-control-next-icon"></span>
     </a>
+ {% endfor %}
 </div>
 {% endblock %}
